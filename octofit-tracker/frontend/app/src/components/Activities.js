@@ -3,19 +3,21 @@ import React, { useEffect, useState } from 'react';
 
 const Activities = () => {
   const [activities, setActivities] = useState([]);
-  const endpoint = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/activities/`;
+  // Endpoint is now defined directly in useEffect
 
   useEffect(() => {
-    fetch(endpoint)
+    const codespaceUrl = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/activities/`;
+    console.log('Fetching from:', codespaceUrl);
+    fetch(codespaceUrl)
       .then(res => res.json())
       .then(data => {
         const results = data.results || data;
         setActivities(results);
-        console.log('Activities API endpoint:', endpoint);
+        console.log('Activities API endpoint:', codespaceUrl);
         console.log('Fetched activities:', results);
       })
       .catch(err => console.error('Error fetching activities:', err));
-  }, [endpoint]);
+  }, []);
 
   return (
     <div className="card mb-4">

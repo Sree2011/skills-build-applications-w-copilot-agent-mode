@@ -3,19 +3,21 @@ import React, { useEffect, useState } from 'react';
 
 const Teams = () => {
   const [teams, setTeams] = useState([]);
-  const endpoint = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/teams/`;
+  // Endpoint is now defined directly in useEffect
 
   useEffect(() => {
-    fetch(endpoint)
+    const codespaceUrl = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/teams/`;
+    console.log('Fetching from:', codespaceUrl);
+    fetch(codespaceUrl)
       .then(res => res.json())
       .then(data => {
         const results = data.results || data;
         setTeams(results);
-        console.log('Teams API endpoint:', endpoint);
+        console.log('Teams API endpoint:', codespaceUrl);
         console.log('Fetched teams:', results);
       })
       .catch(err => console.error('Error fetching teams:', err));
-  }, [endpoint]);
+  }, []);
 
   return (
     <div className="card mb-4">

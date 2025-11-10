@@ -3,19 +3,21 @@ import React, { useEffect, useState } from 'react';
 
 const Workouts = () => {
   const [workouts, setWorkouts] = useState([]);
-  const endpoint = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/workouts/`;
+  // Endpoint is now defined directly in useEffect
 
   useEffect(() => {
-    fetch(endpoint)
+    const codespaceUrl = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/workouts/`;
+    console.log('Fetching from:', codespaceUrl);
+    fetch(codespaceUrl)
       .then(res => res.json())
       .then(data => {
         const results = data.results || data;
         setWorkouts(results);
-        console.log('Workouts API endpoint:', endpoint);
+        console.log('Workouts API endpoint:', codespaceUrl);
         console.log('Fetched workouts:', results);
       })
       .catch(err => console.error('Error fetching workouts:', err));
-  }, [endpoint]);
+  }, []);
 
   return (
     <div className="card mb-4">

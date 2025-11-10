@@ -3,19 +3,21 @@ import React, { useEffect, useState } from 'react';
 
 const Leaderboard = () => {
   const [leaders, setLeaders] = useState([]);
-  const endpoint = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/leaderboard/`;
+  // Endpoint is now defined directly in useEffect
 
   useEffect(() => {
-    fetch(endpoint)
+    const codespaceUrl = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/leaderboard/`;
+    console.log('Fetching from:', codespaceUrl);
+    fetch(codespaceUrl)
       .then(res => res.json())
       .then(data => {
         const results = data.results || data;
         setLeaders(results);
-        console.log('Leaderboard API endpoint:', endpoint);
+        console.log('Leaderboard API endpoint:', codespaceUrl);
         console.log('Fetched leaderboard:', results);
       })
       .catch(err => console.error('Error fetching leaderboard:', err));
-  }, [endpoint]);
+  }, []);
 
   return (
     <div className="card mb-4">

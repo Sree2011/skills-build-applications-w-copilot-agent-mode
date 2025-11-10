@@ -3,19 +3,21 @@ import React, { useEffect, useState } from 'react';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
-  const endpoint = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/users/`;
+  // Endpoint is now defined directly in useEffect
 
   useEffect(() => {
-    fetch(endpoint)
+    const codespaceUrl = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/users/`;
+    console.log('Fetching from:', codespaceUrl);
+    fetch(codespaceUrl)
       .then(res => res.json())
       .then(data => {
         const results = data.results || data;
         setUsers(results);
-        console.log('Users API endpoint:', endpoint);
+        console.log('Users API endpoint:', codespaceUrl);
         console.log('Fetched users:', results);
       })
       .catch(err => console.error('Error fetching users:', err));
-  }, [endpoint]);
+  }, []);
 
   return (
     <div className="card mb-4">
