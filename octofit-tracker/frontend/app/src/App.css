@@ -1,83 +1,109 @@
 
+:root {
+  --primary-50: #e8f7ff;
+  --primary-100: #d0eefe;
+  --primary-500: #007bff;
+  --primary-600: #0064d6;
+  --accent: #00c6ff;
+  --muted: #6c757d;
+  --bg-start: #f3f7ff;
+  --bg-end: #eef9f6;
+  --card-bg: #ffffff;
+  --table-head: linear-gradient(90deg, rgba(0,123,255,0.95), rgba(0,198,255,0.9));
+}
+
 body {
-  background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+  background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
   min-height: 100vh;
-  color: #222b45;
+  color: #12202b;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
 }
 
 .App {
-  text-align: center;
-  color: #222b45;
+  text-align: left;
+  color: #12202b;
 }
 
 .octofit-logo {
-  height: 48px;
-  margin-right: 16px;
+  height: 44px;
+  margin-right: 12px;
   vertical-align: middle;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(2,6,23,0.08);
 }
 
 .navbar {
-  background: linear-gradient(90deg, #007bff 0%, #00c6ff 100%) !important;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  background: var(--table-head) !important;
+  box-shadow: 0 6px 18px rgba(3,10,20,0.08);
+}
+.navbar .container-fluid {
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 .navbar-brand, .navbar-nav .nav-link {
   color: #fff !important;
   font-weight: 600;
-  letter-spacing: 1px;
+  letter-spacing: 0.6px;
 }
 .navbar-brand:hover, .navbar-nav .nav-link.active {
-  color: #ffe082 !important;
+  color: #fff3c4 !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #007bff;
+  color: var(--primary-500);
   font-weight: 700;
 }
 
 .table {
-  background: #fff;
+  background: var(--card-bg);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-shadow: 0 4px 18px rgba(3,10,20,0.04);
 }
 .table thead {
-  background: #007bff;
+  background: var(--table-head);
   color: #fff;
 }
+.table thead th {
+  border: none;
+}
+.table tbody td {
+  vertical-align: middle;
+}
 .table-striped tbody tr:nth-of-type(odd) {
-  background-color: #e3f2fd;
+  background-color: rgba(0,198,255,0.06);
 }
 
 .btn, .btn-primary {
-  background: linear-gradient(90deg, #007bff 0%, #00c6ff 100%);
+  background: linear-gradient(90deg, var(--primary-500) 0%, var(--accent) 100%);
   border: none;
   color: #fff;
   font-weight: 600;
-  border-radius: 24px;
-  padding: 0.5rem 1.5rem;
-  transition: background 0.2s;
+  border-radius: 10px;
+  padding: 0.35rem 0.9rem;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
-.btn:hover, .btn-primary:hover {
-  background: linear-gradient(90deg, #0056b3 0%, #00aaff 100%);
-  color: #ffe082;
+.btn:active, .btn:focus, .btn:hover, .btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.08);
 }
 
 a, .App-link {
-  color: #007bff;
+  color: var(--primary-600);
   text-decoration: underline;
-  transition: color 0.2s;
+  transition: color 0.15s;
 }
 a:hover, .App-link:hover {
-  color: #00c6ff;
+  color: var(--accent);
 }
 
 .card {
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.04);
   border: none;
 }
 .card-title {
-  color: #007bff;
+  color: var(--primary-500);
 }
 .bg-light {
   background: #f8f9fa !important;
@@ -85,24 +111,25 @@ a:hover, .App-link:hover {
 
 /* Modal custom styles */
 .modal-content {
-  border-radius: 16px;
+  border-radius: 12px;
+  overflow: hidden;
 }
 .modal-header {
-  background: #007bff;
+  background: var(--primary-500);
   color: #fff;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 .modal-footer {
-  border-bottom-left-radius: 16px;
-  border-bottom-right-radius: 16px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* small helpers */
+.muted { color: var(--muted); }
+.small { font-size: 0.9rem; }
+
+@media (max-width: 576px) {
+  .navbar .container-fluid { padding-left: 0.5rem; padding-right: 0.5rem; }
+  .octofit-logo { height: 36px; }
 }

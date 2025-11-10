@@ -3,46 +3,88 @@ import React, { useEffect, useState } from 'react';
 
 const Teams = () => {
   const [teams, setTeams] = useState([]);
-  // Endpoint is now defined directly in useEffect
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [query, setQuery] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [selected, setSelected] = useState(null);
 
-  useEffect(() => {
+  const fetchData = async () => {
+    setLoading(true);
+    setError(null);
     const codespaceUrl = `https://${process.env.REACT_APP_CODESPACE_NAME}-8000.app.github.dev/api/teams/`;
-    console.log('Fetching from:', codespaceUrl);
-    fetch(codespaceUrl)
-      .then(res => res.json())
-      .then(data => {
-        const results = data.results || data;
-        setTeams(results);
-        console.log('Teams API endpoint:', codespaceUrl);
-        console.log('Fetched teams:', results);
-      })
-      .catch(err => console.error('Error fetching teams:', err));
-  }, []);
+    console.log('Teams API endpoint:', codespaceUrl);
+    try {
+      const res = await fetch(codespaceUrl);
+      const data = await res.json();
+      console.log('Fetched teams (raw):', data);
+      const results = data.results || data;
+      const filtered = query ? results.filter(r => JSON.stringify(r).toLowerCase().includes(query.toLowerCase())) : results;
+      setTeams(filtered);
+      console.log('Teams to display:', filtered);
+    } catch (err) {
+      console.error('Error fetching teams:', err);
+      setError(String(err));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  useEffect(() => { fetchData(); }, []);
+
+  const onRefresh = () => fetchData();
+  const openDetails = (item) => { setSelected(item); setShowModal(true); console.log('Open team:', item); };
 
   return (
     <div className="card mb-4">
+      <div className="card-header d-flex justify-content-between align-items-center">
+        <h5 className="mb-0">Teams</h5>
+        <div className="d-flex align-items-center">
+          <form className="d-flex me-2" onSubmit={e => { e.preventDefault(); fetchData(); }}>
+            <input value={query} onChange={(e) => setQuery(e.target.value)} className="form-control form-control-sm" placeholder="Search..." />
+          </form>
+          <button className="btn btn-sm btn-primary" onClick={onRefresh} disabled={loading}>{loading ? 'Loading...' : 'Refresh'}</button>
+        </div>
+      </div>
       <div className="card-body">
-        <h2 className="card-title mb-4">Teams</h2>
+        {error && <div className="alert alert-danger">{error}</div>}
         <div className="table-responsive">
           <table className="table table-striped table-bordered">
             <thead className="thead-dark">
               <tr>
-                {teams.length > 0 && Object.keys(teams[0]).map((key) => (
+                {teams.length > 0 ? Object.keys(teams[0]).map((key) => (
                   <th key={key}>{key}</th>
-                ))}
+                )) : <th>No data</th>}
               </tr>
             </thead>
             <tbody>
               {teams.map((team, idx) => (
-                <tr key={team.id || idx}>
+                <tr key={team.id || idx} style={{cursor: 'pointer'}} onClick={() => openDetails(team)}>
                   {Object.values(team).map((val, i) => (
-                    <td key={i}>{typeof val === 'object' ? JSON.stringify(val) : val}</td>
+                    <td key={i}>{typeof val === 'object' ? JSON.stringify(val) : String(val)}</td>
                   ))}
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+
+        {showModal && (
+          <div className="modal d-block" tabIndex="-1" role="dialog">
+            <div className="modal-dialog modal-lg" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Team Details</h5>
+                  <button type="button" className="btn-close" aria-label="Close" onClick={() => setShowModal(false)}></button>
+                </div>
+                <div className="modal-body"><pre style={{whiteSpace: 'pre-wrap'}}>{JSON.stringify(selected, null, 2)}</pre></div>
+                <div className="modal-footer"><button className="btn btn-secondary" onClick={() => setShowModal(false)}>Close</button></div>
+              </div>
+            </div>
+            <div className="modal-backdrop show"></div>
+          </div>
+        )}
       </div>
     </div>
   );

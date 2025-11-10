@@ -26,11 +26,11 @@ function App() {
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item"><NavLink className="nav-link" to="/activities">Activities</NavLink></li>
-                <li className="nav-item"><NavLink className="nav-link" to="/leaderboard">Leaderboard</NavLink></li>
-                <li className="nav-item"><NavLink className="nav-link" to="/teams">Teams</NavLink></li>
-                <li className="nav-item"><NavLink className="nav-link" to="/users">Users</NavLink></li>
-                <li className="nav-item"><NavLink className="nav-link" to="/workouts">Workouts</NavLink></li>
+                <li className="nav-item"><NavLink className={({isActive})=> 'nav-link' + (isActive? ' active':'')} to="/activities">Activities</NavLink></li>
+                <li className="nav-item"><NavLink className={({isActive})=> 'nav-link' + (isActive? ' active':'')} to="/leaderboard">Leaderboard</NavLink></li>
+                <li className="nav-item"><NavLink className={({isActive})=> 'nav-link' + (isActive? ' active':'')} to="/teams">Teams</NavLink></li>
+                <li className="nav-item"><NavLink className={({isActive})=> 'nav-link' + (isActive? ' active':'')} to="/users">Users</NavLink></li>
+                <li className="nav-item"><NavLink className={({isActive})=> 'nav-link' + (isActive? ' active':'')} to="/workouts">Workouts</NavLink></li>
               </ul>
             </div>
           </div>
