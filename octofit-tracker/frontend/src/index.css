@@ -1,0 +1,9 @@
+/* Minimal base styles for the scaffold */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+
+#root {
+  min-height: 100vh;
+}
